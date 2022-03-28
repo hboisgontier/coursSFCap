@@ -1,12 +1,28 @@
-<!doctype html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Hello World!</title>
-</head>
-<body>
-    <h1>Hello World!</h1>
-</body>
-</html>
+{% extends 'base.html.twig' %}
+
+{% block main %}
+<h1>{{ titre }}</h1>
+    <ul>
+    {%  for s in series %}
+        <li>{{ s }}</li>
+    {% endfor %}
+    </ul>
+    {{ series | join(', ') }}
+{% set yo = 'bla bla...' %}
+{# affichage d'une variable #}
+{{ yo }}
+{% set colors = ['red', 'blue', 'green'] %}
+    <h2>les {{ colors | length }} couleurs</h2>
+<ul>
+    {% for color in colors %}
+        <li>{{ color | capitalize }}</li>
+    {% endfor %}
+</ul>
+{% set nombre = 123654789.4164687 %}
+<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cum cumque cupiditate error fuga fugiat in incidunt itaque labore, modi molestias mollitia officia porro quam quo reiciendis ullam, voluptate? Quia, tenetur?
+    {{ nombre | number_format(2, ',', '&nbsp;') | raw }}</p>
+{% endblock %}
+
+{% block title %}
+{{ parent() }} World!
+{% endblock %}
