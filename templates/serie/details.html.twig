@@ -1,9 +1,10 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}
-Serie {{ id }} | {{ parent() }}
+    {{ serie.name }} | {{ parent() }}
 {% endblock %}
 
 {% block main %}
-<h1>Serie #{{ id }}</h1>
+    <h1>{{ serie.name }}</h1>
+    <p>{{ serie.overview }}</p>
 {% endblock %}

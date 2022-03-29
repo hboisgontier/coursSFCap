@@ -4,4 +4,9 @@
 
 {% block main %}
 <h1>Our series</h1>
+    <ul>
+    {% for serie in series %}
+        <li><a href="{{ path('serie_details', {'id': serie.id }) }}">{{ serie.name }}</a></li>
+    {% endfor %}
+    </ul>
 {% endblock %}

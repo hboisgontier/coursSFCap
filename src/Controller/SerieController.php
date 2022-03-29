@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Serie;
+use App\Repository\SerieRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -11,15 +12,19 @@ use Symfony\Component\Routing\Annotation\Route;
 class SerieController extends AbstractController
 {
     #[Route('/serie', name: 'serie_list')]
-    public function list(): Response
+    public function list(SerieRepository $repo): Response
     {
-        return $this->render('serie/list.html.twig');
+        //$series = $repo->findAll();
+        $series = $repo->findBy([], ['id'=>'ASC'], 10, 20);
+        return $this->render('serie/list.html.twig', compact('series'));
     }
 
     #[Route('/serie/{id}', name: 'serie_details', requirements:['id'=>'\d+'])]
-    public function details($id): Response {
-        dd($id);
-        return $this->render('serie/details.html.twig', ['id'=>$id]);
+    public function details($id, SerieRepository $repo): Response {
+        $serie = $repo->find($id);
+        if(!$serie)
+            throw $this->createNotFoundException();
+        return $this->render('serie/details.html.twig', ['serie'=>$serie]);
     }
 
     #[Route('/serie/add', name:'serie_add')]
