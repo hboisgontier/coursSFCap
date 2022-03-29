@@ -16,6 +16,7 @@ class SerieController extends AbstractController
 
     #[Route('/serie/{id}', name: 'serie_details', requirements:['id'=>'\d+'])]
     public function details($id): Response {
+        dd($id);
         return $this->render('serie/details.html.twig', ['id'=>$id]);
     }
 }
