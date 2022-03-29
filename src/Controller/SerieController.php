@@ -28,7 +28,7 @@ class SerieController extends AbstractController
     }
 
     #[Route('/serie/add', name:'serie_add')]
-    public function add(EntityManagerInterface $em): Response {
+    public function add(EntityManagerInterface $em, SerieRepository $repo): Response {
         // ajout
         $serie = new Serie();
         $serie->setName('Le bureau des légendes')
@@ -36,13 +36,22 @@ class SerieController extends AbstractController
             ->setDateCreated(new \DateTime());
         $em->persist($serie);
         $em->flush();
+        //$repo->add($serie);
+
         // modification
         $serie->setName('Tutu')
             ->setDateModified(new \DateTime());
         $em->flush();
+
         // suppression
         $em->remove($serie);
         $em->flush();
         return $this->render('serie/add.html.twig');
+    }
+
+    #[Route('/serie/good', name:'serie_good')]
+    public function good(SerieRepository $repo) : Response {
+        $series = $repo->findGoodSeries();
+        return $this->render('serie/list.html.twig', compact('series'));
     }
 }
