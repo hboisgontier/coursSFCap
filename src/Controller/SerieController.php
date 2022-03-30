@@ -35,7 +35,7 @@ class SerieController extends AbstractController
         $form = $this->createForm(SerieType::class, $serie);
         //hydratation des données entre le formulaire et l'instance
         $form->handleRequest($request);
-        if($form->isSubmitted()) {
+        if($form->isSubmitted() && $form->isValid()) {
             //traitement
             $serie->setDateCreated(new \DateTime());
             $em->persist($serie);

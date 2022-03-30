@@ -36,3 +36,6 @@ composer req form
 
 #Génération d'un formulaire
 php bin/console make:form
+
+#Activation de la validation des données
+composer req validator

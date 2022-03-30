@@ -4,8 +4,11 @@ namespace App\Entity;
 
 use App\Repository\SerieRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 #[ORM\Entity(repositoryClass: SerieRepository::class)]
+#[UniqueEntity('tmdbId')]
 class Serie
 {
     #[ORM\Id]
@@ -14,6 +17,7 @@ class Serie
     private $id;
 
     #[ORM\Column(type: 'string', length: 255)]
+    #[Assert\NotBlank(message:'Please provide a name for the serie')]
     private $name;
 
     #[ORM\Column(type: 'text', nullable: true)]
