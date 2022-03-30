@@ -7,6 +7,7 @@ use App\Form\SerieType;
 use App\Repository\SerieRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -29,9 +30,20 @@ class SerieController extends AbstractController
     }
 
     #[Route('/serie/add', name:'serie_add')]
-    public function add(EntityManagerInterface $em, SerieRepository $repo): Response {
+    public function add(EntityManagerInterface $em, SerieRepository $repo, Request $request): Response {
         $serie = new Serie();
         $form = $this->createForm(SerieType::class, $serie);
+        //hydratation des données entre le formulaire et l'instance
+        $form->handleRequest($request);
+        if($form->isSubmitted()) {
+            //traitement
+            $serie->setDateCreated(new \DateTime());
+            $em->persist($serie);
+            $em->flush();
+            $this->addFlash('success', 'The serie '.$serie->getName().' has been added');
+            //redirection toujours après le traitement
+            return $this->redirectToRoute('serie_list');
+        }
         $viewForm = $form->createView();
         return $this->render('serie/add.html.twig', compact('viewForm'));
         /*

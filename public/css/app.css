@@ -2,3 +2,17 @@ body, a {
     background-color: #313131;
     color: white;
 }
+
+.flash {
+    margin: 3em;
+    padding: 1em;
+    border-radius: 1em;
+}
+
+.flash-success {
+    background-color: green;
+}
+
+.flash-error {
+    background-color: #B0413E;
+}

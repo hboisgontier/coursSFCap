@@ -15,6 +15,11 @@
         <li><a href="{{ path('app_default_yo') }}">Yo</a></li>
     </ul>
 </nav>
+{% for category, messages in app.flashes %}
+    {% for message in messages %}
+        <div class="flash flash-{{ category }}">{{ message }}</div>
+    {% endfor %}
+{% endfor %}
 <main>
     {% block main %}{% endblock %}
 </main>
