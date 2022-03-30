@@ -17,7 +17,8 @@ class SerieController extends AbstractController
     public function list(SerieRepository $repo): Response
     {
         //$series = $repo->findAll();
-        $series = $repo->findBy([], ['id'=>'ASC'], 10, 20);
+        //$series = $repo->findBy([], ['id'=>'ASC'], 10, 20);
+        $series = $repo->findWithSeasons();
         return $this->render('serie/list.html.twig', compact('series'));
     }
 

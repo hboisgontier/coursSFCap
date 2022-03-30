@@ -5,6 +5,12 @@
 {% endblock %}
 
 {% block main %}
-    <h1>{{ serie.name }}</h1>
+    <h2>{{ serie.name }}</h2>
     <p>{{ serie.overview }}</p>
+    {% for season in serie.seasons %}
+        <h3>Season #{{ season.number }}</h3>
+        {% if(season.overview) %}
+            <p>{{ season.overview }}</p>
+        {% endif %}
+    {% endfor %}
 {% endblock %}
