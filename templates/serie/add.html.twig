@@ -6,4 +6,8 @@
 
 {% block main %}
     <h1>Add a serie</h1>
+    {{ form_start(viewForm) }}
+    {{ form_widget(viewForm) }}
+    <input type="submit" value="Create">
+    {{ form_end(viewForm) }}
 {% endblock %}

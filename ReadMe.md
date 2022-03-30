@@ -30,3 +30,9 @@ php bin/console doctrine:schema:validate
 
 #Mise à jour de la base de données
 php bin/console doctrine:schema:update --force
+
+#Installation des formulaires
+composer req form
+
+#Génération d'un formulaire
+php bin/console make:form

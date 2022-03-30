@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Serie;
+use App\Form\SerieType;
 use App\Repository\SerieRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -29,6 +30,11 @@ class SerieController extends AbstractController
 
     #[Route('/serie/add', name:'serie_add')]
     public function add(EntityManagerInterface $em, SerieRepository $repo): Response {
+        $serie = new Serie();
+        $form = $this->createForm(SerieType::class, $serie);
+        $viewForm = $form->createView();
+        return $this->render('serie/add.html.twig', compact('viewForm'));
+        /*
         // ajout
         $serie = new Serie();
         $serie->setName('Le bureau des légendes')
@@ -47,6 +53,7 @@ class SerieController extends AbstractController
         $em->remove($serie);
         $em->flush();
         return $this->render('serie/add.html.twig');
+        */
     }
 
     #[Route('/serie/good', name:'serie_good')]
