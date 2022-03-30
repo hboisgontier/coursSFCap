@@ -39,3 +39,6 @@ php bin/console make:form
 
 #Activation de la validation des données
 composer req validator
+
+#Protection contre CSRF
+composer req security-csrf
