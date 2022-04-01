@@ -1,0 +1,47 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Season index{% endblock %}
+
+{% block main %}
+    <h1>Season index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Number</th>
+                <th>FirstAirDate</th>
+                <th>Overview</th>
+                <th>Poster</th>
+                <th>TmdbId</th>
+                <th>DateCreated</th>
+                <th>DateModified</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for season in seasons %}
+            <tr>
+                <td>{{ season.id }}</td>
+                <td>{{ season.number }}</td>
+                <td>{{ season.firstAirDate ? season.firstAirDate|date('Y-m-d') : '' }}</td>
+                <td>{{ season.overview }}</td>
+                <td>{{ season.poster }}</td>
+                <td>{{ season.tmdbId }}</td>
+                <td>{{ season.dateCreated ? season.dateCreated|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ season.dateModified ? season.dateModified|date('Y-m-d H:i:s') : '' }}</td>
+                <td>
+                    <a href="{{ path('app_season_show', {'id': season.id}) }}">show</a>
+                    <a href="{{ path('app_season_edit', {'id': season.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="9">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_season_new') }}">Create new</a>
+{% endblock %}

@@ -22,6 +22,12 @@ class SerieController extends AbstractController
         return $this->render('serie/list.html.twig', compact('series'));
     }
 
+    #[Route('/serie/p/{page}', name: 'serie_list_page', requirements: ['page'=>'\d+'])]
+    public function liste_page($page, SerieRepository $repo): Response {
+        $series = $repo->findWithSeasons($page);
+        return $this->render('serie/list.html.twig', compact('series', 'page'));
+    }
+
     #[Route('/serie/{id}', name: 'serie_details', requirements:['id'=>'\d+'])]
     public function details($id, SerieRepository $repo): Response {
         $serie = $repo->find($id);
@@ -67,6 +73,15 @@ class SerieController extends AbstractController
         $em->flush();
         return $this->render('serie/add.html.twig');
         */
+    }
+
+    #[Route('/serie/delete/{id}', name: 'serie_delete', requirements: ['id'=>'\d+'], methods: ['POST'])]
+    public function delete($id, EntityManagerInterface $em, SerieRepository $repo): Response {
+        $serie = $repo->find($id);
+        $em->remove($serie);
+        $em->flush();
+        $this->addFlash('success', 'The serie '.$serie->getName().' has been removed!');
+        return $this->redirectToRoute('serie_list_page', ['page'=>0]);
     }
 
     #[Route('/serie/good', name:'serie_good')]

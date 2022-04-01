@@ -7,6 +7,7 @@ use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
+use Doctrine\ORM\Tools\Pagination\Paginator;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -66,11 +67,14 @@ class SerieRepository extends ServiceEntityRepository
         return $query->getResult();
     }
 
-    public function findWithSeasons() {
+    public function findWithSeasons($pageNumber = 0, $limit = 7) {
         $qb = $this->createQueryBuilder('serie')
             ->join('serie.seasons', 'seasons')
-            ->addSelect('seasons');
+            ->addSelect('seasons')
+            ->setMaxResults($limit)
+            ->setFirstResult($pageNumber * $limit)
+        ;
         $query = $qb->getQuery();
-        return $query->getResult();
+        return new Paginator($query);
     }
 }

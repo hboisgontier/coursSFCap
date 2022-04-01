@@ -10,4 +10,8 @@
         <li><a href="{{ path('serie_details', {'id': serie.id }) }}">{{ serie.name }} ({{ serie.vote }}/10, {{ nbSeasons }} season{{ nbSeasons > 1 ? 's':'' }})</a></li>
     {% endfor %}
     </ul>
+    {% if(page > 0) %}
+        <a href="{{ path('serie_list_page', {'page': page-1}) }}">Previous</a>
+    {% endif %}
+    <a href="{{ path('serie_list_page', {'page': page+1}) }}">Next</a>
 {% endblock %}
