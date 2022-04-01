@@ -42,3 +42,17 @@ composer req validator
 
 #Protection contre CSRF
 composer req security-csrf
+
+#Ajout de la recette pour activer le bundle de sécurité
+composer req symfony/security-bundle
+
+#Création d'une entité représentant un utilisateur
+php bin/console make:user
+
+#Cette entité peut être modifiée pour ajouter d'autre attributs
+php bin/console make:entity
+
+#génération du formulaire d'inscription
+php bin/console make:registration-form
+
+
