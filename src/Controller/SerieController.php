@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Serie;
 use App\Form\SerieType;
 use App\Repository\SerieRepository;
+use App\Services\Validator;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -19,7 +20,8 @@ class SerieController extends AbstractController
         //$series = $repo->findAll();
         //$series = $repo->findBy([], ['id'=>'ASC'], 10, 20);
         $series = $repo->findWithSeasons();
-        return $this->render('serie/list.html.twig', compact('series'));
+        $page = 0;
+        return $this->render('serie/list.html.twig', compact('series', 'page'));
     }
 
     #[Route('/serie/p/{page}', name: 'serie_list_page', requirements: ['page'=>'\d+'])]
@@ -37,12 +39,16 @@ class SerieController extends AbstractController
     }
 
     #[Route('/serie/add', name:'serie_add')]
-    public function add(EntityManagerInterface $em, SerieRepository $repo, Request $request): Response {
+    public function add(EntityManagerInterface $em, SerieRepository $repo, Request $request, Validator $validator): Response {
         $serie = new Serie();
         $form = $this->createForm(SerieType::class, $serie);
         //hydratation des données entre le formulaire et l'instance
         $form->handleRequest($request);
-        if($form->isSubmitted() && $form->isValid()) {
+        $withoutTaboo = $validator->validate($serie->getOverview());
+        if(!$withoutTaboo) {
+            $this->addFlash('error', 'Overview contains taboo words');
+        }
+        if($form->isSubmitted() && $form->isValid() && $withoutTaboo) {
             //traitement
             $serie->setDateCreated(new \DateTime());
             $em->persist($serie);
